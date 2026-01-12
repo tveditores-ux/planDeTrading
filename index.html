@@ -16,7 +16,7 @@
         * { margin:0; padding:0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg); color: var(--text); padding: 20px; }
 
-        .container { max-width: 1100px; margin: 0 auto; }
+        .container { max-width: 1150px; margin: 0 auto; }
         .nav-tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid #3d3d4a; padding-bottom: 10px; }
         .tab-btn { background: none; border: none; color: #777; padding: 10px 20px; cursor: pointer; font-weight: 600; }
         .tab-btn.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
@@ -46,8 +46,7 @@
         .btn-sync { background: var(--success); color: #1e1e24; font-size: 0.9rem; }
         .btn-excel { background: #1d6f42; color: white; font-size: 0.85rem; border: none; }
         .btn-reminder { font-size: 0.7rem; display: flex; align-items: center; justify-content: center; gap: 8px; opacity: 0.6; }
-        .btn-reminder.active { opacity: 1; border: 1px solid rgba(255,255,255,0.2); }
-        .btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        .btn-reminder.active { opacity: 1; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); }
 
         table { width: 100%; border-collapse: collapse; }
         td, th { padding: 10px; text-align: left; border-bottom: 1px solid #3d3d4a; font-size: 0.8rem; }
@@ -60,7 +59,6 @@
             background: var(--card); border: 1px solid #444; padding: 35px; 
             border-radius: 24px; text-align: center; max-width: 420px; width: 90%;
         }
-
         .warning-lot { color: #ff9800; font-size: 0.65rem; margin-top: 5px; font-weight: 600; }
     </style>
 </head>
@@ -77,18 +75,18 @@
         </button>
         
         <button class="btn btn-excel" onclick="exportToExcel()">
-            <i class="fas fa-file-excel"></i> EXPORTAR BITÁCORA DETALLADA
+            <i class="fas fa-file-excel"></i> EXPORTAR BITÁCORA (CON LOTAJE)
         </button>
         
         <button onclick="document.getElementById('alarm-overlay').style.display='none'" class="btn" style="background:none; color:#555; font-size: 0.75rem;">
-            Volver a la tabla
+            Volver
         </button>
     </div>
 </div>
 
 <div class="container">
     <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('journal', this)">SALA OPERATIVA</button>
+        <button class="tab-btn active" onclick="switchTab('journal', this)">OPERATIVA PAS</button>
         <button class="tab-btn" onclick="switchTab('plan', this)">PROGRESO 21 DÍAS</button>
     </div>
 
@@ -102,10 +100,10 @@
                 <input type="number" id="loss-pct" value="1" step="0.1" oninput="updateRiskParams()">
                 <div class="stat-box"><div class="stat-val" id="loss-usd" style="color: var(--danger)">-$100.00</div></div>
             </div>
-            <div class="input-group"><label>Capital</label>
+            <div class="input-group"><label>Capital Base</label>
                 <div class="stat-box"><div class="stat-val">$10,000</div></div>
             </div>
-            <div class="input-group"><label>Hoy</label>
+            <div class="input-group"><label>Acumulado Hoy</label>
                 <div class="stat-box" style="background: #1a1a1f;"><div class="stat-val" id="current-day-total">$0.00</div></div>
             </div>
         </div>
@@ -115,32 +113,41 @@
                 <div class="card">
                     <div class="checks-container">
                         <div class="check-section">
-                            <h4>REGLAS ENTRADA</h4>
-                            <label class="check-item"><input type="checkbox" class="c-pas"> Lotaje 0.7 - 5.0</label>
-                            <label class="check-item"><input type="checkbox" class="c-pas"> Solo 1 trade activo</label>
+                            <h4>ENTRADA PAS</h4>
+                            <label class="check-item"><input type="checkbox" class="c-pas"> Lote 0.7 - 5.0</label>
+                            <label class="check-item"><input type="checkbox" class="c-pas"> 1 Activo a la vez</label>
                             <label class="check-item"><input type="checkbox" class="c-pas"> Análisis Estructural</label>
                         </div>
                         <div class="check-section">
-                            <h4>REGLAS SALIDA</h4>
+                            <h4>SALIDA PAS</h4>
                             <label class="check-item"><input type="checkbox" class="c-pas"> Regla del 30%</label>
                             <label class="check-item"><input type="checkbox" class="c-pas"> Máximo 5 velas</label>
-                            <label class="check-item"><input type="checkbox" class="c-pas"> Calma Emocional</label>
+                            <label class="check-item"><input type="checkbox" class="c-pas"> Cero Ansiedad</label>
                         </div>
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px;">
                         <select id="asset">
-                            <option>Boom 1000</option><option>Boom 500</option><option>Boom 300</option>
-                            <option>Crash 1000</option><option>Crash 500</option><option>Crash 300</option>
+                            <optgroup label="BOOM Series">
+                                <option>Boom 1000</option><option>Boom 900</option><option>Boom 600</option>
+                                <option>Boom 500</option><option>Boom 300</option><option>Boom 150</option>
+                            </optgroup>
+                            <optgroup label="CRASH Series">
+                                <option>Crash 1000</option><option>Crash 900</option><option>Crash 600</option>
+                                <option>Crash 500</option><option>Crash 300</option><option>Crash 150</option>
+                            </optgroup>
+                            <optgroup label="Volatility">
+                                <option>V75</option><option>V100</option><option>V10 (1s)</option>
+                            </optgroup>
                         </select>
-                        <input type="number" id="trade-lot" placeholder="Lote usado" step="0.01">
-                        <input type="number" id="profit-val" placeholder="Monto $">
+                        <input type="number" id="trade-lot" placeholder="Lote real" step="0.01">
+                        <input type="number" id="profit-val" placeholder="Resultado $">
                     </div>
-                    <button class="btn btn-add" onclick="processTrade()">REGISTRAR OPERACIÓN</button>
+                    <button class="btn btn-add" onclick="processTrade()">REGISTRAR EN BITÁCORA</button>
                 </div>
 
                 <div class="card" style="padding: 10px;">
                     <table id="history-table">
-                        <thead><tr><th>HORA</th><th>ACTIVO</th><th>LOTE</th><th>$</th><th></th></tr></thead>
+                        <thead><tr><th>HORA</th><th>ACTIVO</th><th>LOTE</th><th>MONTO</th><th></th></tr></thead>
                         <tbody id="history-body"></tbody>
                     </table>
                 </div>
@@ -148,14 +155,14 @@
 
             <div class="sidebar">
                 <div class="card" style="height: fit-content; border-color: var(--secondary); margin-bottom: 15px;">
-                    <h4 style="font-size:0.65rem; color:var(--secondary); margin-bottom:12px; text-align: center;">CALCULADORA</h4>
+                    <h4 style="font-size:0.65rem; color:var(--secondary); margin-bottom:12px; text-align: center;">CALCULADORA DE RIESGO</h4>
                     <div class="input-group" style="margin-bottom:10px">
-                        <label>Riesgo Trade $</label>
+                        <label>Riesgo por trade ($)</label>
                         <input type="number" id="risk-amount" value="50" oninput="calculateLot()">
                     </div>
                     <div class="input-group" style="margin-bottom:10px">
-                        <label>Puntos SL</label>
-                        <input type="number" id="sl-points" placeholder="Ej: 15" oninput="calculateLot()">
+                        <label>Puntos SL (5 velas)</label>
+                        <input type="number" id="sl-points" placeholder="Ej: 10" oninput="calculateLot()">
                     </div>
                     <div class="stat-box" id="lot-box" style="border: 2px dashed var(--secondary);">
                         <label style="color: var(--secondary); font-size: 0.6rem;">LOTES SUGERIDOS:</label>
@@ -165,12 +172,12 @@
                 </div>
 
                 <div class="card" style="height: fit-content; border-color: #555;">
-                    <h4 style="font-size:0.65rem; color:#aaa; margin-bottom:12px; text-align: center;">ENFOQUE Y SALUD</h4>
+                    <h4 style="font-size:0.65rem; color:#aaa; margin-bottom:12px; text-align: center;">RECORDATORIOS PAS</h4>
                     <button id="water-btn" class="btn btn-reminder" onclick="toggleReminder('water')">
-                        <i class="fas fa-tint" style="color: var(--water)"></i> BEBER AGUA (20m)
+                        <i class="fas fa-tint" style="color: var(--water)"></i> AGUA (20 MIN)
                     </button>
                     <button id="move-btn" class="btn btn-reminder" onclick="toggleReminder('move')">
-                        <i class="fas fa-walking" style="color: var(--move)"></i> MOVERSE / ESTIRAR (45m)
+                        <i class="fas fa-walking" style="color: var(--move)"></i> MOVERSE (45 MIN)
                     </button>
                 </div>
             </div>
@@ -179,7 +186,7 @@
 
     <div id="plan" class="page">
         <div class="card">
-            <h3 style="margin-bottom:20px; font-weight: 300;">PROGRESIÓN 21 DÍAS</h3>
+            <h3 style="margin-bottom:20px; font-weight: 300;">PROGRESIÓN A 21 DÍAS (INTERÉS COMPUESTO)</h3>
             <div id="plan-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px;"></div>
             <div id="plan-footer" style="margin-top:20px; font-size:1rem; opacity:0.8"></div>
         </div>
@@ -203,16 +210,14 @@
     function toggleReminder(type) {
         const btn = document.getElementById(type + '-btn');
         const minutes = type === 'water' ? 20 : 45;
-        const msg = type === 'water' ? "¡Momento de hidratarse! Bebe un poco de agua." : "¡Levántate! Estira las piernas y respira profundo.";
+        const msg = type === 'water' ? "PAS: Momento de beber agua e hidratar el cerebro." : "PAS: Levántate 2 minutos. Elimina el estrés visual.";
 
         if(timers[type]) {
             clearInterval(timers[type]);
             timers[type] = null;
             btn.classList.remove('active');
-            btn.style.background = 'none';
         } else {
             btn.classList.add('active');
-            btn.style.background = 'rgba(255,255,255,0.05)';
             timers[type] = setInterval(() => {
                 new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play();
                 alert(msg);
@@ -236,7 +241,7 @@
         const lotMsg = document.getElementById('lot-msg');
         
         if (lot > 0 && (lot < 0.7 || lot > 5.0)) {
-            lotMsg.innerText = "⚠️ FUERA DE REGLA";
+            lotMsg.innerText = "⚠️ REGLA: 0.7 - 5.0";
             resLot.style.color = 'var(--danger)';
         } else {
             lotMsg.innerText = "";
@@ -249,7 +254,7 @@
         const lot = parseFloat(document.getElementById('trade-lot').value) || 0;
         if(isNaN(val)) return;
         if(document.querySelectorAll('.c-pas:checked').length < 6) {
-            alert("⚠️ Completa los checks PAS primero."); return;
+            alert("⚠️ Requisito PAS: Marca todos los puntos del checklist."); return;
         }
 
         const now = new Date();
@@ -289,8 +294,8 @@
         const win = 10000 * (parseFloat(document.getElementById('goal-pct').value)/100);
         const loss = -(10000 * (parseFloat(document.getElementById('loss-pct').value)/100));
 
-        if(dailyTotal >= win) showModal("META LOGRADA", dailyTotal, "Disciplina perfecta. Exporta tu bitácora y descansa.", 'var(--success)');
-        else if(dailyTotal <= loss) showModal("STOP LOSS ALCANZADO", dailyTotal, "Gestión de riesgo cumplida. Cerramos sesión.", 'var(--danger)');
+        if(dailyTotal >= win) showModal("SESIÓN COMPLETADA", dailyTotal, "Meta alcanzada. Exporta tus resultados y desconéctate.", 'var(--success)');
+        else if(dailyTotal <= loss) showModal("LÍMITE DE RIESGO", dailyTotal, "Stop Loss respetado. Mañana el mercado seguirá ahí.", 'var(--danger)');
     }
 
     function showModal(title, amount, msg, color) {
@@ -319,7 +324,7 @@
         for(let i=1; i<=21; i++) {
             let isDone = completedDays[i-1] !== undefined;
             let pft = isDone ? completedDays[i-1] : (cap * pct);
-            container.innerHTML += `<div class="day-box ${isDone?'completed':''}" style="padding:12px; border:1px solid #444; border-radius:10px; text-align:center;">
+            container.innerHTML += `<div class="day-box ${isDone?'completed':''}" style="padding:12px; border:1px solid #444; border-radius:10px; text-align:center; background:${isDone?'rgba(130,201,30,0.1)':'transparent'}">
                 <span style="font-size:0.55rem; color:#777">D${i}</span><br>
                 <b style="${isDone?'color:var(--success)':''}">$${pft.toFixed(0)}</b><br>
                 <span style="font-size:0.55rem; opacity:0.5">$${cap.toLocaleString()}</span>
@@ -330,14 +335,14 @@
     }
 
     function exportToExcel() {
-        if(trades.length === 0) return alert("No hay datos.");
+        if(trades.length === 0) return alert("Sin datos.");
         const wsData = trades.map(t => ({
-            Fecha: t.fecha, Hora: t.hora, Activo: t.activo, Lotaje: t.lotaje, Monto_USD: t.monto
+            Fecha: t.fecha, Hora: t.hora, Activo: t.activo, Lotaje: t.lotaje, Monto: t.monto
         }));
         const ws = XLSX.utils.json_to_sheet(wsData);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Bitacora");
-        XLSX.writeFile(wb, `BePrime_10K_${new Date().toISOString().slice(0,10)}.xlsx`);
+        XLSX.writeFile(wb, `Trade_Elite_10K_${new Date().toISOString().slice(0,10)}.xlsx`);
     }
 
     updateRiskParams();
