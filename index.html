@@ -10,101 +10,83 @@
     <style>
         :root {
             --primary: #9b7ede; --secondary: #7fb3d5; --success: #82c91e; --danger: #e57373; 
-            --bg: #1e1e24; --card: #2a2a32; --text: #d1d1d1; --water: #4fc3f7; --move: #ffb74d;
+            --bg: #121214; --card: #1c1c21; --text: #b0b0b0; --water: #4fc3f7; --move: #ffb74d;
         }
-
         * { margin:0; padding:0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg); color: var(--text); padding: 20px; }
-
-        .container { max-width: 1150px; margin: 0 auto; }
-        .nav-tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid #3d3d4a; padding-bottom: 10px; }
-        .tab-btn { background: none; border: none; color: #777; padding: 10px 20px; cursor: pointer; font-weight: 600; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        .header-minimal { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; opacity: 0.8; }
+        .clock-discrete { font-size: 0.8rem; font-weight: 300; letter-spacing: 2px; color: var(--secondary); }
+        .nav-tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid #2d2d35; }
+        .tab-btn { background: none; border: none; color: #555; padding: 10px 20px; cursor: pointer; font-weight: 600; font-size: 0.8rem; }
         .tab-btn.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
-
-        .page { display: none; animation: fadeIn 0.4s; }
+        .page { display: none; }
         .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .card { background: var(--card); border-radius: 12px; padding: 20px; border: 1px solid #3d3d4a; margin-bottom: 20px; }
-        .config-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 25px; }
-        
+        .card { background: var(--card); border-radius: 12px; padding: 18px; border: 1px solid #2d2d35; margin-bottom: 20px; }
+        .config-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
         .input-group { display: flex; flex-direction: column; gap: 5px; }
-        label { font-size: 0.65rem; color: #a0a0a0; text-transform: uppercase; letter-spacing: 1px; }
-        input, select { background: #1a1a1f; border: 1px solid #444; color: #fff; padding: 10px; border-radius: 8px; outline: none; font-size: 0.9rem; }
-        
-        .stat-box { text-align: center; padding: 8px; border-radius: 8px; background: #23232b; border: 1px solid #333; }
-        .stat-val { font-size: 1rem; font-weight: 600; }
-
-        .main-grid { display: grid; grid-template-columns: 1fr 320px; gap: 25px; }
-        .checks-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
-        .check-section { background: rgba(0,0,0,0.15); padding: 12px; border-radius: 10px; border: 1px solid #333; }
-        .check-section h4 { font-size: 0.65rem; color: var(--primary); margin-bottom: 10px; text-align: center; }
-        .check-item { display: flex; align-items: flex-start; gap: 8px; font-size: 0.7rem; margin-bottom: 6px; color: #b0b0b0; cursor: pointer; }
-        
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px; transition: 0.2s; }
+        label { font-size: 0.6rem; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+        input, select { background: #141418; border: 1px solid #333; color: #eee; padding: 8px; border-radius: 6px; outline: none; font-size: 0.85rem; }
+        .stat-box { text-align: center; padding: 6px; border-radius: 6px; background: #141418; border: 1px solid #2d2d35; }
+        .stat-val { font-size: 0.9rem; font-weight: 600; }
+        .main-grid { display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
+        .checks-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .check-section { background: rgba(0,0,0,0.15); padding: 12px; border-radius: 10px; border: 1px solid #2d2d35; }
+        .check-section h4 { font-size: 0.65rem; color: var(--primary); margin-bottom: 10px; text-align: center; border-bottom: 1px solid #2d2d35; padding-bottom: 5px; }
+        .check-item { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; margin-bottom: 8px; cursor: pointer; color: #999; }
+        .btn { width: 100%; padding: 10px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 0.8rem; }
         .btn-add { background: var(--primary); color: white; }
-        .btn-sync { background: var(--success); color: #1e1e24; font-size: 0.9rem; }
-        .btn-excel { background: #1d6f42; color: white; font-size: 0.85rem; border: none; }
-        .btn-reminder { font-size: 0.7rem; display: flex; align-items: center; justify-content: center; gap: 8px; opacity: 0.6; }
-        .btn-reminder.active { opacity: 1; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); }
-
+        .btn-danger-outline { background: transparent; color: #666; border: 1px solid #333; margin-top: 10px; }
+        .btn-danger-outline:hover { border-color: var(--danger); color: var(--danger); }
+        .reminder-row { display: grid; grid-template-columns: 1fr 65px; gap: 8px; align-items: center; margin-bottom: 10px; }
+        .btn-reminder { font-size: 0.7rem; background: #25252d; color: #777; border: 1px solid #333; }
+        .btn-reminder.active { border-color: var(--success); color: #fff; background: rgba(130,201,30,0.1); }
         table { width: 100%; border-collapse: collapse; }
-        td, th { padding: 10px; text-align: left; border-bottom: 1px solid #3d3d4a; font-size: 0.8rem; }
-
-        #alarm-overlay { 
-            position: fixed; inset: 0; background: rgba(0,0,0,0.96); 
-            display: none; justify-content: center; align-items: center; z-index: 1000; 
-        }
-        .modal-content { 
-            background: var(--card); border: 1px solid #444; padding: 35px; 
-            border-radius: 24px; text-align: center; max-width: 420px; width: 90%;
-        }
-        .warning-lot { color: #ff9800; font-size: 0.65rem; margin-top: 5px; font-weight: 600; }
+        td, th { padding: 10px; text-align: left; border-bottom: 1px solid #25252d; font-size: 0.75rem; }
+        #affirmation-bar { font-size: 0.7rem; color: var(--success); text-align: center; font-style: italic; opacity: 0.8; }
+        #alarm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: var(--card); padding: 30px; border-radius: 20px; text-align: center; max-width: 400px; border: 1px solid #333; }
     </style>
 </head>
 <body>
 
 <div id="alarm-overlay">
     <div class="modal-content">
-        <h2 id="modal-title" style="font-size: 1.2rem; margin-bottom: 5px;"></h2>
-        <div id="modal-amount" style="font-size: 2.8rem; font-weight: 600; margin-bottom: 15px;"></div>
-        <p id="modal-msg" style="margin-bottom: 25px; color: #a0a0a0; font-size: 0.85rem; line-height: 1.5;"></p>
-        
-        <button class="btn btn-sync" onclick="syncAndClose()">
-            <i class="fas fa-save"></i> CARGAR AL PLAN Y APAGAR
-        </button>
-        
-        <button class="btn btn-excel" onclick="exportToExcel()">
-            <i class="fas fa-file-excel"></i> EXPORTAR BITÁCORA (CON LOTAJE)
-        </button>
-        
-        <button onclick="document.getElementById('alarm-overlay').style.display='none'" class="btn" style="background:none; color:#555; font-size: 0.75rem;">
-            Volver
-        </button>
+        <h2 id="modal-title" style="margin-bottom: 10px;"></h2>
+        <div id="modal-amount" style="font-size: 2.5rem; font-weight: 600; margin-bottom: 20px;"></div>
+        <p id="modal-msg" style="margin-bottom: 20px; color: #888; font-size: 0.8rem;"></p>
+        <button class="btn btn-add" onclick="syncAndClose()">CARGAR AL PLAN DE 21 DÍAS</button>
+        <button onclick="document.getElementById('alarm-overlay').style.display='none'" class="btn btn-danger-outline">Seguir Operando</button>
     </div>
 </div>
 
 <div class="container">
+    <div class="header-minimal">
+        <div id="affirmation-bar">Mente clara, ejecución precisa.</div>
+        <div class="clock-discrete" id="clock">00:00:00</div>
+    </div>
+
     <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('journal', this)">OPERATIVA PAS</button>
+        <button class="tab-btn active" onclick="switchTab('journal', this)">BITÁCORA DIARIA</button>
         <button class="tab-btn" onclick="switchTab('plan', this)">PROGRESO 21 DÍAS</button>
     </div>
 
     <div id="journal" class="page active">
         <div class="config-panel card">
-            <div class="input-group"><label>Meta TP (%)</label>
-                <input type="number" id="goal-pct" value="2" step="0.1" oninput="updateRiskParams()">
-                <div class="stat-box"><div class="stat-val" id="goal-usd" style="color: var(--success)">$200.00</div></div>
+            <div class="input-group"><label>Meta (%)</label>
+                <input type="number" id="goal-pct" value="2" step="0.1" oninput="saveConfig(); updateRiskParams()">
             </div>
             <div class="input-group"><label>Stop Loss (%)</label>
-                <input type="number" id="loss-pct" value="1" step="0.1" oninput="updateRiskParams()">
-                <div class="stat-box"><div class="stat-val" id="loss-usd" style="color: var(--danger)">-$100.00</div></div>
-            </div>
-            <div class="input-group"><label>Capital Base</label>
-                <div class="stat-box"><div class="stat-val">$10,000</div></div>
+                <input type="number" id="loss-pct" value="1" step="0.1" oninput="saveConfig(); updateRiskParams()">
             </div>
             <div class="input-group"><label>Acumulado Hoy</label>
-                <div class="stat-box" style="background: #1a1a1f;"><div class="stat-val" id="current-day-total">$0.00</div></div>
+                <div class="stat-box"><div class="stat-val" id="current-day-total" style="color:var(--success)">$0.00</div></div>
+            </div>
+            <div class="input-group"><label>Límites $ (Meta/SL)</label>
+                <div style="display: flex; gap: 5px;">
+                    <div class="stat-box" style="flex:1"><div id="goal-usd" style="color:var(--success); font-size:0.75rem;">$200</div></div>
+                    <div class="stat-box" style="flex:1"><div id="loss-usd" style="color:var(--danger); font-size:0.75rem;">-$100</div></div>
+                </div>
             </div>
         </div>
 
@@ -127,25 +109,18 @@
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px;">
                         <select id="asset">
-                            <optgroup label="BOOM Series">
-                                <option>Boom 1000</option><option>Boom 900</option><option>Boom 600</option>
-                                <option>Boom 500</option><option>Boom 300</option><option>Boom 150</option>
-                            </optgroup>
-                            <optgroup label="CRASH Series">
-                                <option>Crash 1000</option><option>Crash 900</option><option>Crash 600</option>
-                                <option>Crash 500</option><option>Crash 300</option><option>Crash 150</option>
-                            </optgroup>
-                            <optgroup label="Volatility">
-                                <option>V75</option><option>V100</option><option>V10 (1s)</option>
-                            </optgroup>
+                            <option>Boom 1000</option><option>Crash 1000</option><option>Boom 500</option>
+                            <option>Crash 500</option><option>Boom 300</option><option>Crash 300</option>
+                            <option>V75</option><option>V100</option>
                         </select>
-                        <input type="number" id="trade-lot" placeholder="Lote real" step="0.01">
+                        <input type="number" id="trade-lot" placeholder="Lote usado" step="0.01">
                         <input type="number" id="profit-val" placeholder="Resultado $">
                     </div>
                     <button class="btn btn-add" onclick="processTrade()">REGISTRAR EN BITÁCORA</button>
+                    <button class="btn btn-danger-outline" onclick="clearDailyTrades()" style="width: auto; padding: 5px 15px; font-size: 0.65rem; border: none; opacity: 0.5;">Limpiar Bitácora del Día</button>
                 </div>
 
-                <div class="card" style="padding: 10px;">
+                <div class="card" style="min-height: 250px;">
                     <table id="history-table">
                         <thead><tr><th>HORA</th><th>ACTIVO</th><th>LOTE</th><th>MONTO</th><th></th></tr></thead>
                         <tbody id="history-body"></tbody>
@@ -154,31 +129,25 @@
             </div>
 
             <div class="sidebar">
-                <div class="card" style="height: fit-content; border-color: var(--secondary); margin-bottom: 15px;">
-                    <h4 style="font-size:0.65rem; color:var(--secondary); margin-bottom:12px; text-align: center;">CALCULADORA DE RIESGO</h4>
-                    <div class="input-group" style="margin-bottom:10px">
-                        <label>Riesgo por trade ($)</label>
-                        <input type="number" id="risk-amount" value="50" oninput="calculateLot()">
+                <div class="card">
+                    <h4 style="font-size:0.6rem; color:#666; margin-bottom:12px; text-align: center;">ALARMAS (MIN)</h4>
+                    <div class="reminder-row">
+                        <button id="water-btn" class="btn btn-reminder" onclick="toggleReminder('water')">AGUA</button>
+                        <input type="number" id="water-time" value="20" onchange="saveConfig()">
                     </div>
-                    <div class="input-group" style="margin-bottom:10px">
-                        <label>Puntos SL (5 velas)</label>
-                        <input type="number" id="sl-points" placeholder="Ej: 10" oninput="calculateLot()">
-                    </div>
-                    <div class="stat-box" id="lot-box" style="border: 2px dashed var(--secondary);">
-                        <label style="color: var(--secondary); font-size: 0.6rem;">LOTES SUGERIDOS:</label>
-                        <div id="res-lot" style="font-size: 1.8rem; color: var(--secondary); font-weight: 600;">0.00</div>
-                        <div id="lot-msg" class="warning-lot"></div>
+                    <div class="reminder-row">
+                        <button id="move-btn" class="btn btn-reminder" onclick="toggleReminder('move')">MOVIMIENTO</button>
+                        <input type="number" id="move-time" value="45" onchange="saveConfig()">
                     </div>
                 </div>
 
-                <div class="card" style="height: fit-content; border-color: #555;">
-                    <h4 style="font-size:0.65rem; color:#aaa; margin-bottom:12px; text-align: center;">RECORDATORIOS PAS</h4>
-                    <button id="water-btn" class="btn btn-reminder" onclick="toggleReminder('water')">
-                        <i class="fas fa-tint" style="color: var(--water)"></i> AGUA (20 MIN)
-                    </button>
-                    <button id="move-btn" class="btn btn-reminder" onclick="toggleReminder('move')">
-                        <i class="fas fa-walking" style="color: var(--move)"></i> MOVERSE (45 MIN)
-                    </button>
+                <div class="card">
+                    <h4 style="font-size:0.6rem; color:#666; margin-bottom:12px; text-align: center;">CALCULADORA LOTE</h4>
+                    <input type="number" id="risk-amount" value="50" oninput="calculateLot(); saveConfig()" style="margin-bottom:10px; width:100%" placeholder="Riesgo $">
+                    <input type="number" id="sl-points" placeholder="Puntos SL" oninput="calculateLot()" style="margin-bottom:10px; width:100%">
+                    <div class="stat-box" style="border: 1px dashed var(--secondary);">
+                        <div id="res-lot" style="font-size: 1.2rem; color: var(--secondary); font-weight: 600;">0.00</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -186,18 +155,35 @@
 
     <div id="plan" class="page">
         <div class="card">
-            <h3 style="margin-bottom:20px; font-weight: 300;">PROGRESIÓN A 21 DÍAS (INTERÉS COMPUESTO)</h3>
-            <div id="plan-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px;"></div>
-            <div id="plan-footer" style="margin-top:20px; font-size:1rem; opacity:0.8"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="font-weight: 300; font-size: 1rem;">PROGRESIÓN INTERÉS COMPUESTO (21 DÍAS)</h3>
+                <button class="btn btn-danger-outline" onclick="resetPlan21()" style="width: auto; padding: 8px 15px; font-size: 0.7rem;">REINICIAR PLAN 21 DÍAS</button>
+            </div>
+            <div id="plan-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px;"></div>
+            <div id="plan-footer" style="margin-top:25px; text-align: right; color: var(--primary); font-weight: 600;"></div>
         </div>
     </div>
 </div>
 
 <script>
-    let trades = [];
-    let dailyTotal = 0;
-    let completedDays = JSON.parse(localStorage.getItem('prime_days')) || [];
+    let trades = JSON.parse(localStorage.getItem('pas_trades')) || [];
+    let completedDays = JSON.parse(localStorage.getItem('pas_days')) || [];
     let timers = { water: null, move: null };
+    
+    // Simulación de frases de refuerzo (puedes ampliar a 100)
+    const phrases = [
+        "Lote 0.7 - 5.0 es tu zona segura.", "Máximo 5 velas para proteger capital.", "La Regla del 30% evita devoluciones dolorosas.",
+        "Un activo a la vez permite enfoque total.", "Estructura manda, el indicador confirma.", "Cero ansiedad: el mercado es infinito.",
+        "Si no hay setup, no hay trade.", "Tu mayor activo es tu disciplina.", "Respeta el Stop Loss, es tu seguro de vida."
+    ];
+
+    function updateClock() {
+        document.getElementById('clock').innerText = new Date().toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    setInterval(() => {
+        document.getElementById('affirmation-bar').innerText = phrases[Math.floor(Math.random() * phrases.length)];
+    }, 300000); // 5 minutos
 
     function switchTab(tabId, btn) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -207,110 +193,125 @@
         if(tabId === 'plan') renderPlan();
     }
 
+    function saveConfig() {
+        const config = {
+            goal: document.getElementById('goal-pct').value,
+            loss: document.getElementById('loss-pct').value,
+            water: document.getElementById('water-time').value,
+            move: document.getElementById('move-time').value,
+            risk: document.getElementById('risk-amount').value
+        };
+        localStorage.setItem('pas_config', JSON.stringify(config));
+    }
+
+    function loadConfig() {
+        const config = JSON.parse(localStorage.getItem('pas_config'));
+        if(config) {
+            document.getElementById('goal-pct').value = config.goal;
+            document.getElementById('loss-pct').value = config.loss;
+            document.getElementById('water-time').value = config.water;
+            document.getElementById('move-time').value = config.move;
+            document.getElementById('risk-amount').value = config.risk;
+        }
+    }
+
     function toggleReminder(type) {
         const btn = document.getElementById(type + '-btn');
-        const minutes = type === 'water' ? 20 : 45;
-        const msg = type === 'water' ? "PAS: Momento de beber agua e hidratar el cerebro." : "PAS: Levántate 2 minutos. Elimina el estrés visual.";
-
+        const minutes = document.getElementById(type + '-time').value;
         if(timers[type]) {
-            clearInterval(timers[type]);
-            timers[type] = null;
+            clearInterval(timers[type]); timers[type] = null;
             btn.classList.remove('active');
         } else {
             btn.classList.add('active');
             timers[type] = setInterval(() => {
                 new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play();
-                alert(msg);
+                alert(`RECUERDA: ${type === 'water' ? 'Beber agua' : 'Pausa activa'}. Mantén el enfoque PAS.`);
             }, minutes * 60000);
-        }
-    }
-
-    function updateRiskParams() {
-        const gp = parseFloat(document.getElementById('goal-pct').value) || 0;
-        const lp = parseFloat(document.getElementById('loss-pct').value) || 0;
-        document.getElementById('goal-usd').innerText = `$${(10000 * (gp/100)).toFixed(2)}`;
-        document.getElementById('loss-usd').innerText = `-$${(10000 * (lp/100)).toFixed(2)}`;
-    }
-
-    function calculateLot() {
-        const risk = parseFloat(document.getElementById('risk-amount').value) || 0;
-        const pts = parseFloat(document.getElementById('sl-points').value) || 0;
-        const lot = pts > 0 ? (risk / pts) : 0;
-        const resLot = document.getElementById('res-lot');
-        resLot.innerText = lot.toFixed(2);
-        const lotMsg = document.getElementById('lot-msg');
-        
-        if (lot > 0 && (lot < 0.7 || lot > 5.0)) {
-            lotMsg.innerText = "⚠️ REGLA: 0.7 - 5.0";
-            resLot.style.color = 'var(--danger)';
-        } else {
-            lotMsg.innerText = "";
-            resLot.style.color = 'var(--secondary)';
         }
     }
 
     function processTrade() {
         const val = parseFloat(document.getElementById('profit-val').value);
-        const lot = parseFloat(document.getElementById('trade-lot').value) || 0;
+        const lot = document.getElementById('trade-lot').value;
         if(isNaN(val)) return;
+
         if(document.querySelectorAll('.c-pas:checked').length < 6) {
-            alert("⚠️ Requisito PAS: Marca todos los puntos del checklist."); return;
+            alert("⚠️ Checklist incompleto. Respeta el proceso PAS."); return;
         }
 
-        const now = new Date();
-        trades.push({ 
+        trades.push({
             id: Date.now(),
-            fecha: now.toLocaleDateString(),
-            hora: now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}), 
+            hora: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}),
             activo: document.getElementById('asset').value,
             lotaje: lot,
-            monto: val 
+            monto: val
         });
-        
+
+        localStorage.setItem('pas_trades', JSON.stringify(trades));
         renderHistory();
         checkThresholds();
         document.getElementById('profit-val').value = "";
-        document.getElementById('trade-lot').value = "";
         document.querySelectorAll('.c-pas').forEach(c => c.checked = false);
     }
 
     function renderHistory() {
         const body = document.getElementById('history-body');
-        body.innerHTML = ""; dailyTotal = 0;
+        body.innerHTML = ""; 
+        let total = 0;
         trades.forEach(t => {
-            dailyTotal += t.monto;
+            total += t.monto;
             const row = body.insertRow(0);
-            row.innerHTML = `<td>${t.hora}</td><td>${t.activo}</td><td>${t.lotaje}</td><td style="color:${t.monto>=0?'var(--success)':'var(--danger)'}">${t.monto.toFixed(2)}</td><td><button style="color:var(--danger); background:none; border:none; cursor:pointer" onclick="deleteTrade(${t.id})">×</button></td>`;
+            row.innerHTML = `<td>${t.hora}</td><td>${t.activo}</td><td>${t.lotaje}</td><td style="color:${t.monto>=0?'var(--success)':'var(--danger)'}">${t.monto.toFixed(2)}</td><td><button style="color:#444; background:none; border:none; cursor:pointer" onclick="deleteTrade(${t.id})">×</button></td>`;
         });
-        document.getElementById('current-day-total').innerText = `$${dailyTotal.toFixed(2)}`;
+        document.getElementById('current-day-total').innerText = `$${total.toFixed(2)}`;
+        updateRiskParams();
     }
 
     function deleteTrade(id) {
         trades = trades.filter(t => t.id !== id);
+        localStorage.setItem('pas_trades', JSON.stringify(trades));
         renderHistory();
     }
 
-    function checkThresholds() {
-        const win = 10000 * (parseFloat(document.getElementById('goal-pct').value)/100);
-        const loss = -(10000 * (parseFloat(document.getElementById('loss-pct').value)/100));
+    function clearDailyTrades() {
+        if(confirm("¿Borrar bitácora de hoy? El progreso de 21 días NO se verá afectado.")) {
+            trades = [];
+            localStorage.setItem('pas_trades', JSON.stringify(trades));
+            renderHistory();
+        }
+    }
 
-        if(dailyTotal >= win) showModal("SESIÓN COMPLETADA", dailyTotal, "Meta alcanzada. Exporta tus resultados y desconéctate.", 'var(--success)');
-        else if(dailyTotal <= loss) showModal("LÍMITE DE RIESGO", dailyTotal, "Stop Loss respetado. Mañana el mercado seguirá ahí.", 'var(--danger)');
+    function resetPlan21() {
+        if(confirm("¿REINICIAR EL PLAN DE 21 DÍAS? Esto borrará todo tu historial de días completados.")) {
+            completedDays = [];
+            localStorage.setItem('pas_days', JSON.stringify(completedDays));
+            renderPlan();
+        }
+    }
+
+    function checkThresholds() {
+        const total = trades.reduce((a, b) => a + b.monto, 0);
+        const goal = 10000 * (document.getElementById('goal-pct').value / 100);
+        const loss = -(10000 * (document.getElementById('loss-pct').value / 100));
+        if(total >= goal) showModal("SESIÓN EXITOSA", total, "Meta lograda. Mañana el mercado seguirá ahí.", 'var(--success)');
+        if(total <= loss) showModal("LÍMITE ALCANZADO", total, "Stop Loss respetado. Disciplina ante todo.", 'var(--danger)');
     }
 
     function showModal(title, amount, msg, color) {
         document.getElementById('modal-title').innerText = title;
         document.getElementById('modal-title').style.color = color;
         document.getElementById('modal-amount').innerText = `$${amount.toFixed(2)}`;
-        document.getElementById('modal-amount').style.color = color;
         document.getElementById('modal-msg').innerText = msg;
         document.getElementById('alarm-overlay').style.display = 'flex';
     }
 
     function syncAndClose() {
-        completedDays.push(dailyTotal);
-        localStorage.setItem('prime_days', JSON.stringify(completedDays));
-        trades = []; dailyTotal = 0; renderHistory();
+        const total = trades.reduce((a, b) => a + b.monto, 0);
+        completedDays.push(total);
+        localStorage.setItem('pas_days', JSON.stringify(completedDays));
+        trades = [];
+        localStorage.setItem('pas_trades', JSON.stringify(trades));
+        renderHistory();
         document.getElementById('alarm-overlay').style.display = 'none';
         switchTab('plan', document.querySelectorAll('.tab-btn')[1]);
     }
@@ -320,33 +321,35 @@
         container.innerHTML = "";
         let cap = 10000;
         const pct = (parseFloat(document.getElementById('goal-pct').value) || 2) / 100;
-
         for(let i=1; i<=21; i++) {
-            let isDone = completedDays[i-1] !== undefined;
-            let pft = isDone ? completedDays[i-1] : (cap * pct);
-            container.innerHTML += `<div class="day-box ${isDone?'completed':''}" style="padding:12px; border:1px solid #444; border-radius:10px; text-align:center; background:${isDone?'rgba(130,201,30,0.1)':'transparent'}">
-                <span style="font-size:0.55rem; color:#777">D${i}</span><br>
-                <b style="${isDone?'color:var(--success)':''}">$${pft.toFixed(0)}</b><br>
-                <span style="font-size:0.55rem; opacity:0.5">$${cap.toLocaleString()}</span>
+            let done = completedDays[i-1] !== undefined;
+            let val = done ? completedDays[i-1] : (cap * pct);
+            container.innerHTML += `<div style="padding:10px; border:1px solid #2d2d35; border-radius:8px; text-align:center; background:${done?'rgba(130,201,30,0.05)':'transparent'}">
+                <div style="font-size:0.5rem; color:#555">DÍA ${i}</div>
+                <div style="font-weight:600; color:${done?'var(--success)':'#888'}">$${val.toFixed(0)}</div>
+                <div style="font-size:0.5rem; opacity:0.3">$${cap.toLocaleString()}</div>
             </div>`;
-            cap += pft;
+            cap += val;
         }
         document.getElementById('plan-footer').innerText = `Proyección Final: $${cap.toLocaleString()}`;
     }
 
-    function exportToExcel() {
-        if(trades.length === 0) return alert("Sin datos.");
-        const wsData = trades.map(t => ({
-            Fecha: t.fecha, Hora: t.hora, Activo: t.activo, Lotaje: t.lotaje, Monto: t.monto
-        }));
-        const ws = XLSX.utils.json_to_sheet(wsData);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Bitacora");
-        XLSX.writeFile(wb, `Trade_Elite_10K_${new Date().toISOString().slice(0,10)}.xlsx`);
+    function calculateLot() {
+        const risk = document.getElementById('risk-amount').value;
+        const pts = document.getElementById('sl-points').value;
+        document.getElementById('res-lot').innerText = pts > 0 ? (risk / pts).toFixed(2) : "0.00";
     }
 
+    function updateRiskParams() {
+        const g = 10000 * (document.getElementById('goal-pct').value / 100);
+        const l = 10000 * (document.getElementById('loss-pct').value / 100);
+        document.getElementById('goal-usd').innerText = `$${g.toFixed(0)}`;
+        document.getElementById('loss-usd').innerText = `-$${l.toFixed(0)}`;
+    }
+
+    loadConfig();
+    renderHistory();
     updateRiskParams();
-    calculateLot();
 </script>
 </body>
 </html>
